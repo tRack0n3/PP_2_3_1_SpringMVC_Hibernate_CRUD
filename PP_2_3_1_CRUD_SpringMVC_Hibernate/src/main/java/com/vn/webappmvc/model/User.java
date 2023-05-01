@@ -19,9 +19,9 @@ public class User {
     private String surname;
 
     @Column(name = "age")
-    private Long age;
+    private Byte age;
 
-    public User(String name, String surname, Long age) {
+    public User(String name, String surname, Byte age) {
         this.name = name;
         this.surname = surname;
         this.age = age;
@@ -54,11 +54,11 @@ public class User {
         this.surname = surname;
     }
 
-    public Long getAge() {
+    public Byte getAge() {
         return age;
     }
 
-    public void setAge(Long age) {
+    public void setAge(Byte age) {
         this.age = age;
     }
 

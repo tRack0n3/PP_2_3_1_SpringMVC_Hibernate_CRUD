@@ -3,7 +3,6 @@ package com.vn.webappmvc.config;
 import org.springframework.context.annotation.*;
 import org.springframework.core.env.Environment;
 import org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor;
-import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
@@ -12,18 +11,20 @@ import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import javax.sql.DataSource;
-import javax.annotation.Resource;
 import java.util.Properties;
 
 @Configuration
-@EnableJpaRepositories
 @PropertySource("classpath:db.properties")
 @EnableTransactionManagement
 @ComponentScan("com.vn.webappmvc")
 
 public class HibernateConfiguration {
-    @Resource
+
     private Environment env;
+
+    public HibernateConfiguration(Environment env) {
+        this.env = env;
+    }
 
     @Bean
     public LocalContainerEntityManagerFactoryBean entityManagerFactory() {
@@ -45,10 +46,10 @@ public class HibernateConfiguration {
     @Bean
     public DataSource dataSource() {
         DriverManagerDataSource ds = new DriverManagerDataSource();
-        ds.setUrl(env.getRequiredProperty("db.url"));
+        ds.setUrl(env.getRequiredProperty("jdbc.url"));
         ds.setDriverClassName("com.mysql.cj.jdbc.Driver");
-        ds.setUsername(env.getProperty("db.username"));
-        ds.setPassword(env.getProperty("db.password"));
+        ds.setUsername(env.getProperty("jdbc.username"));
+        ds.setPassword(env.getProperty("jdbc.password"));
         return ds;
     }
     @Bean
@@ -59,7 +60,7 @@ public class HibernateConfiguration {
         Properties properties = new Properties();
         properties.setProperty("hibernate.show_sql", "true");
         properties.setProperty("hibernate.dialect", "org.hibernate.dialect.MySQL8Dialect");
-        properties.setProperty("hibernate.hbm2ddl.auto", "create");
+        properties.setProperty("hibernate.hbm2ddl.auto", "create-drop");
         return properties;
     }
 }
