@@ -7,30 +7,33 @@
     <body>
         <h1>Users list</h1>
         <div>
-            <table>
+            <table border="1">
                 <tr>
-                    <th>Id</th>
-                    <th>Name</th>
-                    <th>Surname</th>
-                    <th>Age</th>
-                    <th>Action</th>
+                    <th scope="col">Id</th>
+                    <th scope="col">Name</th>
+                    <th scope="col">Surname</th>
+                    <th scope="col">Age</th>
+                    <th scope="col">Action</th>
                 </tr>
-                <tr th:each="user : ${users}">
-                    <td th:text="${user.getId()}">Id</td>
-                    <td th:text="${user.getName()}">Name</td>
-                    <td th:text="${user.getSurname()}">Surname</td>
-                    <td th:text="${user.getAge()}">Age</td>
+                <tr align="center" th:each="user : ${users}">
+                    <td width="200"> <p th:text="${user.getId()}">Id</p></td>
+                    <td width="200"> <p th:text="${user.getName()}">Name</p></td>
+                    <td width="200"> <p th:text="${user.getSurname()}">Surname</p></td>
+                    <td width="200"> <p th:text="${user.getAge()}">Age</p></td>
                     <td>
-                        <a th:href="@{/users/{id}/edit(id=${user.getId()})}">Edit</a>
+                        <form method="GET" th:href="@{/users/{id}/edit(id=${user.getId()})}">
+                            <input type="submit" value="Edit user">
+                        </form>
                         <form th:method="DELETE" th:action="@{/users/{id}(id=${user.getId()})}">
-                            <input type="submit" value="Delete"/>
+                            <input type="submit" value="Delete user"/>
                         </form>
                     </td>
                 </tr>
             </table>
             <hr/>
             <h2>Add User</h2>
-            <a href="users/new">Create new user</a>
+            <input type = "button" value = "Create new user"
+                   onclick = "window.location.href = 'users/new'"/>
         </div>
     </body>
 </html>
